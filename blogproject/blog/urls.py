@@ -1,6 +1,6 @@
 from django.urls import path, include
 from rest_framework.routers import DefaultRouter
-from .views import PostViewSet, CommentViewSet, LikeToggle, UserCreate
+from .views import PostViewSet, CommentViewSet, LikeToggle, UserCreate,PostVideoViewSet
 from rest_framework.authtoken.views import obtain_auth_token
 from drf_yasg.views import get_schema_view
 from drf_yasg import openapi
@@ -9,6 +9,7 @@ from rest_framework import permissions
 router = DefaultRouter()
 router.register(r'posts', PostViewSet)
 router.register(r'comments', CommentViewSet)
+router.register(r'post-video',PostVideoViewSet)
 
 schema_view = get_schema_view(
     openapi.Info(

@@ -2,8 +2,8 @@ from rest_framework import viewsets, permissions, status
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from django.shortcuts import get_object_or_404
-from .models import Post, Comment, Like
-from .serializers import PostSerializer, CommentSerializer, LikeSerializer, UserSerializer
+from .models import Post, Comment, Like,PostVideo
+from .serializers import PostSerializer, CommentSerializer, LikeSerializer, UserSerializer,PostVideoSerializer
 from django.contrib.auth.models import User
 from rest_framework import generics
 from rest_framework.permissions import AllowAny
@@ -42,3 +42,8 @@ class UserCreate(generics.CreateAPIView):
     queryset = User.objects.all()
     serializer_class = UserSerializer
     permission_classes = [AllowAny]
+
+class PostVideoViewSet(viewsets.ModelViewSet):
+    queryset = PostVideo.objects.all()
+    serializer_class = PostVideoSerializer
+
