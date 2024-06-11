@@ -1,6 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import User
-from django.core.validators import FileExtensionValidator
+from django.core.validators import FileExtensionValidator,ValidationError
 class Post(models.Model):
     title = models.CharField(max_length=100)
     content = models.TextField()
@@ -12,9 +12,19 @@ class Post(models.Model):
 
 class PostVideo(models.Model):
     post = models.ForeignKey(Post,on_delete=models.SET_NULL,null=True)
-    video = models.FileField(upload_to='media/videos',validators=[
+    video = models.FileField(upload_to='videos/',validators=[
         FileExtensionValidator(allowed_extensions=['mp4','WMV'])
     ])
+    def clean(self):
+        self.file_size_validator()
+    def file_size_validator(self):
+        limit = 100 * 1024 * 1024
+        if self.video.size > limit:
+            raise ValidationError("fayl hajmi 100 mb dan oshmasligi kerak")
+
+
+    def __str__(self):
+        return f"Video for {self.post.title}"
 
 class Comment(models.Model):
     post = models.ForeignKey(Post, related_name='comments', on_delete=models.CASCADE)
